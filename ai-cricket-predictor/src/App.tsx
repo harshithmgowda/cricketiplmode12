@@ -103,13 +103,25 @@ const Header = ({ currentView, setView, userName }: { currentView: View, setView
         </div>
       </div>
       
-      {/* Mobile Menu Button - shows Logout since user is logged in */}
-      <div className="md:hidden flex items-center gap-4">
-        <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-cricket-green to-blue-500 flex items-center justify-center font-bold text-black border border-white/20 text-xs">
+      {/* Mobile Menu - shows nav + logout */}
+      <div className="md:hidden flex items-center gap-2">
+        <button
+          onClick={() => setView('dashboard')}
+          className={cn("p-2 rounded-lg border border-white/10 transition-colors", currentView === 'dashboard' ? "bg-cricket-green/20 text-cricket-green" : "bg-white/5 text-gray-400")}
+        >
+          <LayoutDashboard className="w-4 h-4" />
+        </button>
+        <button
+          onClick={() => setView('history')}
+          className={cn("p-2 rounded-lg border border-white/10 transition-colors", currentView === 'history' ? "bg-cricket-green/20 text-cricket-green" : "bg-white/5 text-gray-400")}
+        >
+          <History className="w-4 h-4" />
+        </button>
+        <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-cricket-green to-blue-500 flex items-center justify-center font-bold text-black border border-white/20 text-[10px]">
            {userName.substring(0, 2).toUpperCase()}
         </div>
         <button onClick={() => setView('signin')} className="p-2 text-red-400 bg-white/5 rounded-lg border border-white/10">
-          <LogIn className="w-5 h-5 rotate-180" />
+          <LogIn className="w-4 h-4 rotate-180" />
         </button>
       </div>
     </div>
@@ -445,24 +457,24 @@ const HistoryView = () => {
           <ChevronLeft className="w-4 h-4" /> Back to History
         </button>
 
-        <div className="glass-card p-8 rounded-2xl mb-8 relative overflow-hidden">
-           <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="glass-card p-4 md:p-8 rounded-2xl mb-6 md:mb-8 relative overflow-hidden">
+           <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-6">
              <div className="text-center md:text-left">
-               <p className="text-sm text-slate-400 font-bold uppercase tracking-wider mb-1">{selectedMatch.date}</p>
-               <h2 className="text-3xl font-black text-white">{selectedMatch.venue.split(',')[0]}</h2>
-               <div className="mt-4 flex items-center gap-3 justify-center md:justify-start">
-                 <span className="px-3 py-1 rounded-full bg-white/10 text-white text-xs font-bold border border-white/10">Result</span>
-                 <span className="text-green-400 font-bold">{selectedMatch.winner === selectedMatch.toss_winner ? "Defended" : "Chased"} by {selectedMatch.winner}</span>
+               <p className="text-xs md:text-sm text-slate-400 font-bold uppercase tracking-wider mb-1">{selectedMatch.date}</p>
+               <h2 className="text-xl md:text-3xl font-black text-white">{selectedMatch.venue.split(',')[0]}</h2>
+               <div className="mt-3 md:mt-4 flex items-center gap-2 md:gap-3 justify-center md:justify-start flex-wrap">
+                 <span className="px-2 md:px-3 py-1 rounded-full bg-white/10 text-white text-[10px] md:text-xs font-bold border border-white/10">Result</span>
+                 <span className="text-green-400 font-bold text-xs md:text-base">{selectedMatch.winner === selectedMatch.toss_winner ? "Defended" : "Chased"} by {selectedMatch.winner}</span>
                </div>
              </div>
 
              {matchDetails && matchDetails.innings && (
-               <div className="flex items-center gap-8 bg-black/30 p-4 rounded-xl border border-white/5">
+               <div className="flex items-center gap-4 md:gap-8 bg-black/30 p-3 md:p-4 rounded-xl border border-white/5">
                  {matchDetails.innings.map((inn: any, idx: number) => (
                    <div key={idx} className="text-center">
-                     <p className="text-xs text-slate-500 uppercase font-bold mb-1">{inn.team}</p>
-                     <p className="text-2xl font-bold text-white">{inn.total_runs}/{inn.wickets}</p>
-                     <p className="text-xs text-slate-600">{inn.overs} ov</p>
+                     <p className="text-[10px] md:text-xs text-slate-500 uppercase font-bold mb-1">{inn.team}</p>
+                     <p className="text-lg md:text-2xl font-bold text-white">{inn.total_runs}/{inn.wickets}</p>
+                     <p className="text-[10px] md:text-xs text-slate-600">{inn.overs} ov</p>
                    </div>
                  ))}
                </div>
@@ -475,12 +487,12 @@ const HistoryView = () => {
         ) : matchDetails && (
           <div className="space-y-8">
             {/* Run Rate Chart */}
-            <div className="glass-card p-6 rounded-2xl border border-white/10">
-              <h3 className="text-white font-bold mb-4 flex items-center gap-2">
-                <TrendingUp className="text-cricket-green w-5 h-5"/>
+            <div className="glass-card p-3 md:p-6 rounded-2xl border border-white/10">
+              <h3 className="text-white font-bold mb-3 md:mb-4 flex items-center gap-2 text-sm md:text-base">
+                <TrendingUp className="text-cricket-green w-4 h-4 md:w-5 md:h-5"/>
                 Run Rate Progression
               </h3>
-              <div className="h-64 w-full">
+              <div className="h-48 md:h-64 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={matchDetails.chart_data}>
                     <defs>
@@ -539,15 +551,15 @@ const HistoryView = () => {
 
             {matchDetails.innings.map((inn: any, idx: number) => (
               <div key={idx} className="glass-card rounded-xl overflow-hidden border border-white/10">
-                <div className="px-6 py-4 bg-white/5 border-b border-white/10 flex justify-between items-center">
-                  <h3 className="font-bold text-white flex items-center gap-2">
-                    <span className="w-6 h-6 rounded-full bg-cricket-green text-black flex items-center justify-center text-xs">{idx + 1}</span>
-                    {inn.team} Innings
+                <div className="px-3 md:px-6 py-3 md:py-4 bg-white/5 border-b border-white/10 flex justify-between items-center">
+                  <h3 className="font-bold text-white flex items-center gap-2 text-sm md:text-base">
+                    <span className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-cricket-green text-black flex items-center justify-center text-[10px] md:text-xs">{idx + 1}</span>
+                    {inn.team}
                   </h3>
-                  <span className="text-sm font-bold text-slate-400">{inn.total_runs}/{inn.wickets} ({inn.overs})</span>
+                  <span className="text-xs md:text-sm font-bold text-slate-400">{inn.total_runs}/{inn.wickets} ({inn.overs})</span>
                 </div>
 
-                <div className="p-6">
+                <div className="p-3 md:p-6">
                   <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">Batting Scorecard</h4>
                   <div className="overflow-x-auto mb-8">
                     <table className="w-full text-left text-sm text-slate-300">
@@ -613,12 +625,12 @@ const HistoryView = () => {
   return (
     <div className="w-full">
       <div className="flex flex-col gap-2 mb-8">
-        <h1 className="text-4xl font-black tracking-tight text-white">Historical Data</h1>
-        <p className="text-slate-400 text-lg">Compare past matches between two teams to analyze trends.</p>
+        <h1 className="text-2xl md:text-4xl font-black tracking-tight text-white">Historical Data</h1>
+        <p className="text-slate-400 text-sm md:text-lg">Compare past matches between two teams.</p>
       </div>
 
       {/* Team Selection for History */}
-      <div className="glass-card p-6 rounded-2xl mb-8 flex flex-col md:flex-row gap-4 items-end bg-white/5 border border-white/10">
+      <div className="glass-card p-4 md:p-6 rounded-2xl mb-8 flex flex-col md:flex-row gap-4 items-end bg-white/5 border border-white/10">
         <div className="flex-1 w-full">
           <label className="text-xs font-semibold text-gray-400 uppercase mb-2 block">Team 1</label>
           <select
@@ -642,35 +654,72 @@ const HistoryView = () => {
         <button
           onClick={fetchHistory}
           disabled={loading}
-          className="bg-cricket-green hover:bg-green-600 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-lg shadow-green-500/20 h-[46px] flex items-center justify-center gap-2"
+          className="w-full md:w-auto bg-cricket-green hover:bg-green-600 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-lg shadow-green-500/20 h-[46px] flex items-center justify-center gap-2"
         >
           {loading ? <Activity className="w-5 h-5 animate-spin" /> : <><Search className="w-4 h-4"/> Fetch History</>}
         </button>
       </div>
 
-      <div className="glass-card rounded-2xl overflow-hidden shadow-sm border border-white/10">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left bg-black/20">
-            <thead className="bg-white/5 border-b border-white/10 text-xs text-gray-400 uppercase font-bold tracking-wider">
-              <tr>
-                <th className="px-6 py-4">Date</th>
-                <th className="px-6 py-4">Venue</th>
-                <th className="px-6 py-4">Winner</th>
-                <th className="px-6 py-4">Toss Winner</th>
-                <th className="px-6 py-4">Decision</th>
-                <th className="px-6 py-4 text-center">Action</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-white/5 text-sm text-gray-300">
-              {loading ? (
-                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-gray-500">
-                    <Activity className="w-8 h-8 animate-spin mx-auto mb-2 opacity-50"/>
-                    Loading matches...
-                  </td>
+      {/* Loading State */}
+      {loading && (
+        <div className="flex justify-center py-12">
+          <Activity className="w-8 h-8 animate-spin text-cricket-green opacity-50"/>
+        </div>
+      )}
+
+      {/* Empty State */}
+      {!loading && history.length === 0 && (
+        <div className="glass-card rounded-2xl p-12 text-center border border-white/10">
+          <History className="w-12 h-12 mx-auto mb-3 opacity-20 text-gray-500" />
+          <p className="text-gray-500">No historical matches found between these teams in the dataset.</p>
+        </div>
+      )}
+
+      {/* Mobile Card Layout (visible on small screens only) */}
+      {!loading && history.length > 0 && (
+        <div className="md:hidden space-y-3">
+          {history.map((match, i) => (
+            <div
+              key={i}
+              onClick={() => handleMatchClick(match)}
+              className="glass-card rounded-xl p-4 border border-white/10 active:bg-white/10 cursor-pointer transition-colors"
+            >
+              <div className="flex justify-between items-start mb-3">
+                <span className="text-xs text-slate-500 font-medium">{match.date}</span>
+                <ChevronRight className="w-4 h-4 text-slate-600 flex-shrink-0" />
+              </div>
+              <div className="mb-2">
+                <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold ${match.winner === team1 ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-blue-500/20 text-blue-400 border border-blue-500/30'}`}>
+                  🏆 {match.winner}
+                </span>
+              </div>
+              <p className="text-xs text-slate-400 truncate mb-2" title={match.venue}>📍 {match.venue}</p>
+              <div className="flex gap-4 text-xs text-slate-500">
+                <span>Toss: <span className="text-slate-300">{match.toss_winner}</span></span>
+                <span>Chose: <span className="text-slate-300 capitalize">{match.toss_decision === 'bat' ? '🏏 Bat' : '⚾ Field'}</span></span>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Desktop Table Layout (hidden on small screens) */}
+      {!loading && history.length > 0 && (
+        <div className="hidden md:block glass-card rounded-2xl overflow-hidden shadow-sm border border-white/10">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left bg-black/20">
+              <thead className="bg-white/5 border-b border-white/10 text-xs text-gray-400 uppercase font-bold tracking-wider">
+                <tr>
+                  <th className="px-6 py-4">Date</th>
+                  <th className="px-6 py-4">Venue</th>
+                  <th className="px-6 py-4">Winner</th>
+                  <th className="px-6 py-4">Toss Winner</th>
+                  <th className="px-6 py-4">Decision</th>
+                  <th className="px-6 py-4 text-center">Action</th>
                 </tr>
-              ) : history.length > 0 ? (
-                history.map((match, i) => (
+              </thead>
+              <tbody className="divide-y divide-white/5 text-sm text-gray-300">
+                {history.map((match, i) => (
                   <tr key={i} className="hover:bg-white/5 transition-colors cursor-pointer" onClick={() => handleMatchClick(match)}>
                     <td className="px-6 py-4 whitespace-nowrap text-white font-medium">{match.date}</td>
                     <td className="px-6 py-4 truncate max-w-[200px]" title={match.venue}>{match.venue}</td>
@@ -680,7 +729,7 @@ const HistoryView = () => {
                       </span>
                     </td>
                     <td className="px-6 py-4">{match.toss_winner}</td>
-                     <td className="px-6 py-4 capitalize">
+                    <td className="px-6 py-4 capitalize">
                       <span className="inline-flex items-center gap-1">
                         {match.toss_decision === 'bat' ? '🏏' : '⚾'} {match.toss_decision}
                       </span>
@@ -689,19 +738,12 @@ const HistoryView = () => {
                       <ChevronRight className="w-4 h-4 mx-auto text-slate-500" />
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-gray-500 flex flex-col items-center">
-                    <History className="w-12 h-12 mb-3 opacity-20" />
-                    No historical matches found between these teams in the dataset.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
