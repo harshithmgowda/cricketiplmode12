@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    { "source": "/predict", "destination": "/app.py" },
+    { "source": "/history", "destination": "/app.py" },
+    { "source": "/match_details/(.*)", "destination": "/app.py" },
+    { "source": "/(.*)", "destination": "/ai-cricket-predictor/$1" }
+  ]
+}
