@@ -23,3 +23,6 @@ Thumbs.db
 dist/
 build/
 
+# Never commit env files
+.env*
+!.env.example
