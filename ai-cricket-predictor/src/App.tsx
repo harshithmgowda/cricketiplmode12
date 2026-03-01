@@ -35,6 +35,9 @@ import { motion, AnimatePresence } from 'motion/react';
 import { cn } from './lib/utils';
 import { supabase } from './lib/supabase';
 
+// API base URL: In production (Vercel), uses relative /api path. In local dev, uses localhost Flask server.
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api';
+
 // Types
 type View = 'dashboard' | 'history' | 'signin' | 'signup';
 
@@ -177,7 +180,7 @@ const Dashboard = () => {
     setPrediction(null);
 
     try {
-      const response = await fetch('http://127.0.0.1:5000/predict', {
+      const response = await fetch(`${API_BASE}/predict`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -400,7 +403,7 @@ const HistoryView = () => {
   const fetchHistory = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`http://127.0.0.1:5000/history?team1=${encodeURIComponent(team1)}&team2=${encodeURIComponent(team2)}`);
+      const res = await fetch(`${API_BASE}/history?team1=${encodeURIComponent(team1)}&team2=${encodeURIComponent(team2)}`);
       if (!res.ok) throw new Error('Failed to fetch');
       const data = await res.json();
       setHistory(Array.isArray(data) ? data : []);
@@ -417,7 +420,7 @@ const HistoryView = () => {
     setDetailLoading(true);
     setMatchDetails(null);
     try {
-      const res = await fetch(`http://127.0.0.1:5000/match_details/${match.match_id}`);
+      const res = await fetch(`${API_BASE}/match_details/${match.match_id}`);
       if (!res.ok) throw new Error('Failed to fetch details');
       const data = await res.json();
       setMatchDetails(data);
