@@ -35,8 +35,9 @@ import { motion, AnimatePresence } from 'motion/react';
 import { cn } from './lib/utils';
 import { supabase } from './lib/supabase';
 
-// API base URL: In production (Vercel), uses relative /api path. In local dev, uses localhost Flask server.
-const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api';
+// API base URL: Set VITE_API_BASE_URL in Vercel env vars to your Render backend URL
+// Local dev falls back to localhost Flask server
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:5000';
 
 // Types
 type View = 'dashboard' | 'history' | 'signin' | 'signup';

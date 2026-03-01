@@ -3,6 +3,7 @@ from flask_cors import CORS
 import joblib
 import pandas as pd
 import numpy as np
+import os
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
@@ -204,6 +205,7 @@ def match_details(match_id):
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    print("Starting Flask server...")
-    app.run(debug=True, port=5000)
+    port = int(os.environ.get('PORT', 5000))
+    print(f"Starting Flask server on port {port}...")
+    app.run(debug=False, host='0.0.0.0', port=port)
 
