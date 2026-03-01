@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: cricket-predictor
+    runtime: python
+    buildCommand: "pip install -r requirements.txt && cd ai-cricket-predictor && npm install && npm run build"
+    startCommand: "gunicorn app:app"
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.0"
+      - key: NODE_VERSION
+        value: "20"
+      - key: VITE_SUPABASE_URL
+        sync: false
+      - key: VITE_SUPABASE_ANON_KEY
+        sync: false
+

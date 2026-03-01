@@ -35,9 +35,9 @@ import { motion, AnimatePresence } from 'motion/react';
 import { cn } from './lib/utils';
 import { supabase } from './lib/supabase';
 
-// API base URL: Set VITE_API_BASE_URL in Vercel env vars to your Render backend URL
-// Local dev falls back to localhost Flask server
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:5000';
+// API base URL: empty string means same origin (Flask serves both frontend + API on Render)
+// For local dev, set VITE_API_BASE_URL=http://127.0.0.1:5000 in .env
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
 
 // Types
 type View = 'dashboard' | 'history' | 'signin' | 'signup';

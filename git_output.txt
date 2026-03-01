@@ -1,2 +1,10 @@
-To https://github.com/harshithmgowda/cricketiplmode12.git
- + 03d606e...95f76c2 main -> main (forced update)
+M  .gitignore
+M  Procfile
+M  ai-cricket-predictor/.gitignore
+A  ai-cricket-predictor/dist/assets/index-BEfy4EOx.js
+A  ai-cricket-predictor/dist/assets/index-DjU4gEZl.css
+A  ai-cricket-predictor/dist/index.html
+M  ai-cricket-predictor/src/App.tsx
+M  app.py
+MM git_output.txt
+A  render.yaml

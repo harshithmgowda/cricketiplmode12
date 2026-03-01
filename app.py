@@ -1,11 +1,14 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import joblib
 import pandas as pd
 import numpy as np
 import os
 
-app = Flask(__name__)
+# Path to React build folder
+STATIC_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'ai-cricket-predictor', 'dist')
+
+app = Flask(__name__, static_folder=STATIC_FOLDER, static_url_path='')
 CORS(app)  # Enable CORS for all routes
 
 # 9) LOAD MODEL
@@ -203,6 +206,21 @@ def match_details(match_id):
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+# Health check endpoint
+@app.route('/health', methods=['GET'])
+def health():
+    return jsonify({"status": "ok"})
+
+# Serve React frontend - catch all non-API routes
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve_frontend(path):
+    # If the file exists in the build folder, serve it (JS, CSS, images, etc.)
+    if path and os.path.exists(os.path.join(STATIC_FOLDER, path)):
+        return send_from_directory(STATIC_FOLDER, path)
+    # Otherwise serve index.html (React SPA handles routing)
+    return send_from_directory(STATIC_FOLDER, 'index.html')
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))

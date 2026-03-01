@@ -20,8 +20,10 @@ env/
 Thumbs.db
 
 # Build
-dist/
 build/
+
+# Allow ai-cricket-predictor/dist/ (needed for Render deployment)
+# dist/ is NOT ignored here
 
 # Never commit env files
 .env*
